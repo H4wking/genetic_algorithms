@@ -2,47 +2,44 @@
 #include <vector>
 #include <cmath>
 #include <unistd.h>
+#include <ctime>
+#include <cstdlib>
 
-#define POPULATION_SIZE 10000
+#define POPULATION_SIZE 5000
 #define GENERATIONS 1000
-#define MAX_NUM 5
-#define MIN_NUM -5
-#define MUTATION_CHANCE 0.4
+#define MAX_NUM 512
+#define MIN_NUM -512
+#define MUTATION_CHANCE 0.5
 
-double random_num(int start, int end)
-{
+double random_num(int start, int end) {
     double f = (double)rand() / RAND_MAX;
     return start + f * (end - start);
 }
 
-double mutated_genes()
-{
+double mutated_gene() {
     return random_num(MIN_NUM, MAX_NUM);
 }
 
-std::pair<double, double> create_gnome()
+std::pair<double, double> create()
 {
-    return std::pair<double, double>(mutated_genes(), mutated_genes());
+    return std::pair<double, double>(mutated_gene(), mutated_gene());
 }
 
-class Individual
-{
+class Individual {
 public:
     std::pair<double, double> chromosome;
-    double fitness;
+    double func_res;
     Individual(std::pair<double, double> chromosome);
     Individual mate(Individual parent2);
-    double cal_fitness();
+    double calculate_func();
 };
 
-Individual::Individual(std::pair<double, double> chromosome)
-{
+Individual::Individual(std::pair<double, double> chromosome) {
     this->chromosome = chromosome;
-    fitness = cal_fitness();
-};
+    func_res = calculate_func();
+}
 
-Individual Individual::mate(Individual par2)
-{
+Individual Individual::mate(Individual par2) {
     std::pair<double, double> child_chromosome;
 
     double p = random_num(0, 1);
@@ -56,69 +53,83 @@ Individual Individual::mate(Individual par2)
     }
 
 
-    double p2 = random_num(0, 1);
+    p = random_num(0, 1);
 
-    if (p2 <= MUTATION_CHANCE) {
-        if (p2 <= MUTATION_CHANCE / 2) {
-            child_chromosome.first = mutated_genes();
+    if (p <= MUTATION_CHANCE) {
+        if (p <= MUTATION_CHANCE / 2) {
+            child_chromosome.first = mutated_gene();
         } else {
-            child_chromosome.second = mutated_genes();
+            child_chromosome.second = mutated_gene();
         }
     }
 
     return Individual(child_chromosome);
-};
-
-double Individual::cal_fitness()
-{
-    return pow(1 - chromosome.first, 2) + 100 * pow(chromosome.second - pow(chromosome.first, 2), 2);
-};
-
-bool operator<(const Individual &ind1, const Individual &ind2)
-{
-    return ind1.fitness < ind2.fitness;
 }
 
-int main()
-{
-    srand((unsigned)(time(0)));
+bool operator<(const Individual &ind1, const Individual &ind2) {
+    return ind1.func_res < ind2.func_res;
+}
 
-    int generation = 0;
-
+std::vector<Individual> create_population(int pop_size) {
     std::vector<Individual> population;
 
-    for(int i = 0; i < POPULATION_SIZE; i++)
+    for(int i = 0; i < pop_size; i++)
     {
-        std::pair<double, double> gnome = create_gnome();
-        population.push_back(Individual(gnome));
+        std::pair<double, double> ind = create();
+        population.emplace_back(ind);
     }
 
-    while(generation <= GENERATIONS)
+    return population;
+}
+
+std::vector<Individual> new_gen(int pop_size, std::vector<Individual> prev) {
+    sort(prev.begin(), prev.end());
+
+    std::vector<Individual> new_generation;
+
+    int s = (10 * pop_size) / 100;
+    for(int i = 0; i < s; i++) {
+        new_generation.push_back(prev[i]);
+    }
+
+    s = (90 * pop_size) / 100;
+    for(int i = 0; i < s; i++)
     {
-        sort(population.begin(), population.end());
+        int r = random_num(0, pop_size / 2);
+        Individual parent1 = prev[r];
+        r = random_num(0, pop_size / 2);
+        Individual parent2 = prev[r];
+        Individual offspring = parent1.mate(parent2);
+        new_generation.push_back(offspring);
+    }
 
-        std::vector<Individual> new_generation;
+    return new_generation;
+}
 
-        int s = (10 * POPULATION_SIZE) / 100;
-        for(int i = 0; i < s; i++) {
-            new_generation.push_back(population[i]);
-        }
+void run(int gen_num, int pop_size) {
+    int generation = 0;
 
-        s = (90 * POPULATION_SIZE) / 100;
-        for(int i = 0; i < s; i++)
-        {
-            int r = random_num(0, POPULATION_SIZE / 2);
-            Individual parent1 = population[r];
-            r = random_num(0, POPULATION_SIZE / 2);
-            Individual parent2 = population[r];
-            Individual offspring = parent1.mate(parent2);
-            new_generation.push_back(offspring);
-        }
-        population = new_generation;
+    std::vector<Individual> population = create_population(pop_size);
+
+    while(generation <= gen_num)
+    {
+        population = new_gen(pop_size, population);
+
         std::cout<< "Generation: " << generation << "\t";
         std::cout<< "(x, y): "<< population[0].chromosome.first << " " << population[0].chromosome.second <<"\t";
-        std::cout<< "Fitness: "<< population[0].fitness << std::endl;
+        std::cout<< "Function result: "<< population[0].func_res << std::endl;
 
         generation++;
     }
+}
+
+double Individual::calculate_func() {
+    return -(chromosome.second + 47) * sin(sqrt(abs(chromosome.first / 2 + (chromosome.second + 47))))
+           - chromosome.first * sin(sqrt(abs(chromosome.first -  (chromosome.second + 47))));
+}
+
+int main() {
+    srand(time(nullptr));
+
+    run(GENERATIONS, POPULATION_SIZE);
 }

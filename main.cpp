@@ -129,8 +129,12 @@ void run(int gen_num, int pop_size) {
     {
         population = new_gen(pop_size, population);
 
-        std::cout<< "Generation: " << generation << "\t";
-        std::cout<< "(x, y): "<< population[0].chromosome[0] << " " << population[0].chromosome[1] <<"\t";
+        std::cout << "Generation: " << generation << "\t";
+        std::cout << "Variables: ";
+        for (auto var : population[0].chromosome) {
+            std::cout << var << "; ";
+        }
+        std::cout << "\t";
         std::cout<< "Function result: "<< population[0].func_res << std::endl;
 
         generation++;

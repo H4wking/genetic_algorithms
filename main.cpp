@@ -9,7 +9,7 @@
 #define GENERATIONS 1000
 #define MAX_NUM 512
 #define MIN_NUM -512
-#define MUTATION_CHANCE 0.4
+#define MUTATION_CHANCE 0.7
 #define VARIABLES 2
 
 double random_num(int start, int end) {
@@ -40,6 +40,8 @@ public:
     double func_res;
     Individual(std::vector<double> chromosome);
     Individual mate(Individual parent2);
+    Individual mate2(Individual parent2);
+    Individual mate_average(Individual parent2);
     double calculate_func();
 };
 
@@ -72,6 +74,45 @@ Individual Individual::mate(Individual par2) {
 
     for (int i = 0; i < VARIABLES; i++) {
         p = random_num(0, 1);
+        if (p <= MUTATION_CHANCE) {
+            child_chromosome[i] = mutated_gene();
+        }
+    }
+
+    return Individual(child_chromosome);
+}
+
+Individual Individual::mate2(Individual par2) {
+    std::vector<double> child_chromosome;
+
+    for (int i = 0; i < VARIABLES; i++) {
+        double p = random_num(0, 1);
+        if (p >= 0.5) {
+            child_chromosome.push_back(chromosome[i]);
+        } else {
+            child_chromosome.push_back(par2.chromosome[i]);
+        }
+    }
+
+    for (int i = 0; i < VARIABLES; i++) {
+        double p = random_num(0, 1);
+        if (p <= MUTATION_CHANCE) {
+            child_chromosome[i] = mutated_gene();
+        }
+    }
+
+    return Individual(child_chromosome);
+}
+
+Individual Individual::mate_average(Individual par2) {
+    std::vector<double> child_chromosome;
+
+    for (int i = 0; i < VARIABLES; i++) {
+        child_chromosome.push_back((chromosome[i] + par2.chromosome[i]) / 2);
+    }
+
+    for (int i = 0; i < VARIABLES; i++) {
+        double p = random_num(0, 1);
         if (p <= MUTATION_CHANCE) {
             child_chromosome[i] = mutated_gene();
         }
@@ -113,7 +154,7 @@ std::vector<Individual> new_gen(int pop_size, std::vector<Individual> prev) {
         Individual parent1 = prev[r];
         r = random_int(0, pop_size / 2);
         Individual parent2 = prev[r];
-        Individual offspring = parent1.mate(parent2);
+        Individual offspring = parent1.mate2(parent2);
         new_generation.push_back(offspring);
     }
 
@@ -130,7 +171,7 @@ void run(int gen_num, int pop_size) {
         population = new_gen(pop_size, population);
 
         std::cout << "Generation: " << generation << "\t";
-        std::cout << "Variables: ";
+        std::cout << "Minimum: ";
         for (auto var : population[0].chromosome) {
             std::cout << var << "; ";
         }

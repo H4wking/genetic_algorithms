@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <ctime>
 #include <cstdlib>
+#include <thread>
+#include <mutex>
 
 #define POPULATION_SIZE 1000
 #define GENERATIONS 1000
@@ -11,6 +13,7 @@
 #define MIN_NUM -512
 #define MUTATION_CHANCE 0.7
 #define VARIABLES 2
+#define THREADS 4
 
 double random_num(int start, int end) {
     double d = (double)rand() / RAND_MAX;
@@ -137,6 +140,20 @@ std::vector<Individual> create_population(int pop_size) {
     return population;
 }
 
+void create_offsprings_thr(int n, int pop_size, std::vector<Individual> &prev_gen, std::vector<Individual> &new_gen) {
+    for (int i = 0; i < n; i++) {
+        int r = random_int(0, pop_size / 2);
+        Individual parent1 = prev_gen[r];
+
+        r = random_int(0, pop_size / 2);
+        Individual parent2 = prev_gen[r];
+
+        Individual offspring = parent1.mate2(parent2);
+
+        new_gen.push_back(offspring);
+    }
+}
+
 std::vector<Individual> new_gen(int pop_size, std::vector<Individual> prev) {
     sort(prev.begin(), prev.end());
 
@@ -148,15 +165,27 @@ std::vector<Individual> new_gen(int pop_size, std::vector<Individual> prev) {
     }
 
     s = (90 * pop_size) / 100;
-    for(int i = 0; i < s; i++)
-    {
-        int r = random_int(0, pop_size / 2);
-        Individual parent1 = prev[r];
-        r = random_int(0, pop_size / 2);
-        Individual parent2 = prev[r];
-        Individual offspring = parent1.mate2(parent2);
-        new_generation.push_back(offspring);
+
+    std::vector<Individual> new_gens[THREADS];
+    std::vector<std::thread> v;
+
+    for (int i = 0; i < THREADS - 1; ++i)
+        v.emplace_back(create_offsprings_thr, s / THREADS, pop_size,
+                       std::ref(prev), std::ref(new_gens[i]));
+
+    v.emplace_back(create_offsprings_thr, s - (s / THREADS) * (THREADS - 1), pop_size,
+                   std::ref(prev), std::ref(new_gens[THREADS - 1]));
+
+    for (auto &t: v) {
+        t.join();
     }
+
+    new_generation.reserve(pop_size);
+    for (auto g : new_gens) {
+        new_generation.insert(new_generation.end(), g.begin(), g.end());
+    }
+
+//    std::cout << new_generation.size() << std::endl;
 
     return new_generation;
 }

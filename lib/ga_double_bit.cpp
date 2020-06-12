@@ -27,7 +27,7 @@ Individual_bit Individual_bit::mate_double_bit(Individual_bit par2) {
 
     for (int i = 0; i < VARIABLES; i++) {
         p = random_num(0, 1);
-        spl = random_int(1, VARIABLES - 1);
+        spl = random_int(1, DOUBLE_BITS - 1);
 
         gene = "";
         if (p >= 0.5) {
@@ -171,6 +171,7 @@ void run_ga_double_bit(int gen_num, int pop_size) {
         generation++;
     }
 }
+
 
 double Individual_bit::calculate_func_double_bit() {
     std::vector<double> chromosome_double;

@@ -6,7 +6,7 @@
 #define VARIABLES 2
 
 #define POPULATION_SIZE 1000
-#define GENERATIONS 300
+#define GENERATIONS 500
 #define MAX_NUM 512
 #define MIN_NUM -512
 #define MUTATION_CHANCE 0.1

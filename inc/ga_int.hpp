@@ -20,6 +20,9 @@ bool operator<(const Individual_int &ind1, const Individual_int &ind2);
 
 std::vector<Individual_int> create_population_int(int pop_size);
 
+void create_offsprings_thr_int(int n, int pop_size, std::vector<Individual_int> &prev_gen,
+                               std::vector<Individual_int> &new_gen);
+
 std::vector<Individual_int> new_gen_int(int pop_size, std::vector<Individual_int> prev) ;
 
 void run_ga_int(int gen_num, int pop_size);

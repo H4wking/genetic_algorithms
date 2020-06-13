@@ -7,7 +7,7 @@
 #include <thread>
 #include <mutex>
 #include "../inc/ga_double.hpp"
-
+#include "../inc/functions.hpp"
 
 #include "../inc/random.hpp"
 #include "../config.hpp"
@@ -185,6 +185,5 @@ void run_ga_double(int gen_num, int pop_size) {
 }
 
 double Individual_double::calculate_func_double() {
-    return -(chromosome[1] + 47) * sin(sqrt(abs(chromosome[0] / 2 + (chromosome[1] + 47))))
-           - chromosome[0] * sin(sqrt(abs(chromosome[0] -  (chromosome[1] + 47))));
+    return eggholder_function(chromosome[0], chromosome[1]);
 }

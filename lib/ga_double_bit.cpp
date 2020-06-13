@@ -3,7 +3,7 @@
 #include <cmath>
 #include <thread>
 #include <mutex>
-
+#include "../inc/functions.hpp"
 
 #include "../inc/ga_double_bit.hpp"
 
@@ -179,6 +179,5 @@ double Individual_bit::calculate_func_double_bit() {
         double gene_double = MIN_NUM + std::stoi(gene, nullptr, 2) * ((MAX_NUM - MIN_NUM) / (pow(2, DOUBLE_BITS) - 1));
         chromosome_double.push_back(gene_double);
     }
-    return -(chromosome_double[1] + 47) * sin(sqrt(abs(chromosome_double[0] / 2 + (chromosome_double[1] + 47))))
-           - chromosome_double[0] * sin(sqrt(abs(chromosome_double[0] - (chromosome_double[1] + 47))));
+    return eggholder_function(chromosome_double[0], chromosome_double[1]);
 }

@@ -6,10 +6,10 @@
 #define VARIABLES 2
 
 #define POPULATION_SIZE 1000
-#define GENERATIONS 500
+#define GENERATIONS 300
 #define MAX_NUM 512
 #define MIN_NUM -512
 #define MUTATION_CHANCE 0.1
-#define THREADS 4
+#define THREADS 3
 
 #endif //AKS_PROJECT_CONFIG_HPP

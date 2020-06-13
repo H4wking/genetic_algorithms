@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 
+#include "../inc/functions.hpp"
+
 //Main function for testing all methods
 double eggholder_function(double x, double y) {
 //    minimum: f(512,404.2319)=-959.6407

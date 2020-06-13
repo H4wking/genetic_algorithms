@@ -6,8 +6,8 @@
 #include <algorithm>
 #include "../inc/ga_int.hpp"
 #include "../inc/random.hpp"
-
 #include "../config.hpp"
+#include "../inc/functions.hpp"
 
 Individual_int::Individual_int(std::vector<std::string> chromosome) {
     this->chromosome = chromosome;
@@ -129,7 +129,5 @@ double Individual_int::calculate_func_int() {
         chromosome_int.push_back(MIN_NUM + std::stoi(gene, nullptr, 2) + 1);
     }
 
-    return -(chromosome_int[1] + 47) * sin(sqrt(abs(chromosome_int[0] / 2 + (chromosome_int[1] + 47))))
-           - chromosome_int[0] * sin(sqrt(abs(chromosome_int[0] -  (chromosome_int[1] + 47))));
-
+    return eggholder_function(chromosome_int[0], chromosome_int[1]);
 }

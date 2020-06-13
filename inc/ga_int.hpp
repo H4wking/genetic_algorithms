@@ -11,6 +11,8 @@ public:
 
     Individual_int mate_int(Individual_int parent2);
 
+    Individual_int mate2_int(Individual_int parent2);
+
     double calculate_func_int();
 };
 

@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <cstdlib>
+#include <thread>
 #include "../inc/time.hpp"
 #include <algorithm>
 #include "../inc/ga_int.hpp"
@@ -51,6 +52,39 @@ Individual_int Individual_int::mate_int(Individual_int par2) {
 }
 
 
+Individual_int Individual_int::mate2_int(Individual_int par2) {
+    std::vector<std::string> child_chromosome;
+
+    double p;
+    std::string gene;
+
+    for (int i = 0; i < VARIABLES; i++) {
+        gene = "";
+
+        for (int j = 0; j < INT_BITS; j++) {
+            p = random_num(0, 1);
+            if (p >= 0.5) {
+                gene += chromosome[i][j];
+            } else {
+                gene += par2.chromosome[i][j];
+            }
+        }
+
+        std::bitset<INT_BITS> gene_bin(gene);
+        for (int j = 0; j < INT_BITS; j++) {
+            p = random_num(0, 1);
+            if (p <= MUTATION_CHANCE) {
+                gene_bin.flip(j);
+            }
+        }
+
+        child_chromosome.push_back(gene_bin.to_string());
+    }
+
+    return Individual_int(child_chromosome);
+}
+
+
 bool operator<(const Individual_int &ind1, const Individual_int &ind2) {
     return ind1.func_res < ind2.func_res;
 }
@@ -68,6 +102,22 @@ std::vector<Individual_int> create_population_int(int pop_size) {
 }
 
 
+void create_offsprings_thr_int(int n, int pop_size, std::vector<Individual_int> &prev_gen,
+                               std::vector<Individual_int> &new_gen) {
+    for (int i = 0; i < n; i++) {
+        int r = random_int(0, pop_size / 2);
+        Individual_int parent1 = prev_gen[r];
+
+        r = random_int(0, pop_size / 2);
+        Individual_int parent2 = prev_gen[r];
+
+        Individual_int offspring = parent1.mate2_int(parent2);
+
+        new_gen.push_back(offspring);
+    }
+}
+
+
 std::vector<Individual_int> new_gen_int(int pop_size, std::vector<Individual_int> prev) {
     sort(prev.begin(), prev.end());
 
@@ -82,17 +132,23 @@ std::vector<Individual_int> new_gen_int(int pop_size, std::vector<Individual_int
 
     s = (90 * pop_size) / 100;
 
+    std::vector<Individual_int> new_gens[THREADS];
+    std::vector<std::thread> v;
 
-    for (int i = 0; i < s; i++) {
+    for (int i = 0; i < THREADS - 1; ++i)
+        v.emplace_back(create_offsprings_thr_int, s / THREADS, pop_size,
+                       std::ref(prev), std::ref(new_gens[i]));
 
-        int r = random_num(0, pop_size / 2);
+    v.emplace_back(create_offsprings_thr_int, s - (s / THREADS) * (THREADS - 1), pop_size,
+                   std::ref(prev), std::ref(new_gens[THREADS - 1]));
 
-        Individual_int parent1 = prev[r];
-        r = random_num(0, pop_size / 2);
-        Individual_int parent2 = prev[r];
-        Individual_int offspring = parent1.mate_int(parent2);
-        new_generation.push_back(offspring);
+    for (auto &t: v) {
+        t.join();
+    }
 
+    new_generation.reserve(pop_size);
+    for (auto g : new_gens) {
+        new_generation.insert(new_generation.end(), g.begin(), g.end());
     }
 
     return new_generation;
@@ -111,7 +167,7 @@ void run_ga_int(int gen_num, int pop_size) {
         std::cout << "Generation: " << generation << "\t";
         std::cout << "Minimum: ";
         for (auto var : population[0].chromosome) {
-            std::cout << MIN_NUM + std::stoi(var, nullptr, 2)  + 1<< "; ";
+            std::cout << MIN_NUM + std::stoi(var, nullptr, 2) + 1 << "; ";
         }
         std::cout << "\t";
         std::cout << "Function result: " << population[0].func_res << std::endl;
@@ -129,5 +185,8 @@ double Individual_int::calculate_func_int() {
         chromosome_int.push_back(MIN_NUM + std::stoi(gene, nullptr, 2) + 1);
     }
 
-    return eggholder_function(chromosome_int[0], chromosome_int[1]);
+//    return booth_function(chromosome_int[0], chromosome_int[1]);
+    return pow(chromosome_int[0] + 2 * chromosome_int[1] - 7, 2) +
+           pow(2 * chromosome_int[0] + chromosome_int[1] - 5, 2);
+
 }

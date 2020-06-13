@@ -178,15 +178,11 @@ void run_ga_int(int gen_num, int pop_size) {
 
 }
 
-
 double Individual_int::calculate_func_int() {
     std::vector<int> chromosome_int;
     for (auto gene : chromosome) {
         chromosome_int.push_back(MIN_NUM + std::stoi(gene, nullptr, 2) + 1);
     }
 
-//    return booth_function(chromosome_int[0], chromosome_int[1]);
-    return pow(chromosome_int[0] + 2 * chromosome_int[1] - 7, 2) +
-           pow(2 * chromosome_int[0] + chromosome_int[1] - 5, 2);
-
+    return eggholder_function(chromosome_int[0], chromosome_int[1]);
 }

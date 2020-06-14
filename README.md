@@ -42,7 +42,9 @@ All parameters for our library are set in `config.hpp` file:
 * MIN_NUM - lower boundary for double and double bit methods
 * MUTATION_CHANCE - probability of mutation
 * THREADS - number of threads for thread parallelization
-* METHOD - determine methos of genetic algorithm using thread parallelization: 1 - double, 2 - binary double,  3 - binary int
+* DOUBLE_MATE - determine method of crossover function for genetic algorithm for double: 1 - mate using split, 2 - mate using random genes method, 3 - mate using average method
+* BINARY_MATE - determine method of crossover function for genetic algorithm for double bit and int bit: 1 - mate using split, 2 - mate using random bits method
+* METHOD - determine method of genetic algorithm using thread parallelization: 1 - double, 2 - binary double,  3 - binary int
 * RUN_MPI - boolean to choose thread or MPI parallelization
 * MPI_FOR_DOUBLE - boolean to choose double bit or integer methods
 

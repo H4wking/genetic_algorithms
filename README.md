@@ -48,7 +48,7 @@ All parameters for our library are set in `config.hpp` file:
 
 
 
-###### Description of functions using double bit method as example
+## Description of functions using double bit method as example
 Class Individual_bit representing individual which has two variables: chromosome - vector of strings containing binary numbers representing function variables, func_res - result of calculated function with variables from chromosome.
 
 Methods: 

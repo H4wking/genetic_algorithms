@@ -12,6 +12,8 @@
 #define MUTATION_CHANCE 0.1
 #define THREADS 4
 
+#define METHOD 2 // 1 - double, 2 - binary double,  3 - binary int
+
 #define RUN_MPI false
 #define MPI_FOR_DOUBLE true
 

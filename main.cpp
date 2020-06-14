@@ -27,11 +27,16 @@ int main(int argc, char *argv[]) {
 
         auto start = get_current_time_fenced();
 
-//        run_ga_double(GENERATIONS, POPULATION_SIZE);
-
-        run_ga_double_bit(GENERATIONS, POPULATION_SIZE);
-
-//        run_ga_int(GENERATIONS, POPULATION_SIZE);
+        if (METHOD == 1) {
+            run_ga_double(GENERATIONS, POPULATION_SIZE);
+        } else if (METHOD == 2) {
+            run_ga_double_bit(GENERATIONS, POPULATION_SIZE);
+        } else if (METHOD == 3) {
+            run_ga_int(GENERATIONS, POPULATION_SIZE);
+        } else {
+            std::cerr << "No usable method chosen.";
+            exit(1);
+        }
 
         auto finish = get_current_time_fenced();
 

@@ -1,6 +1,14 @@
 #ifndef GENETIC_ALGORITHMS_GA_DOUBLE_BIT_HPP
 #define GENETIC_ALGORITHMS_GA_DOUBLE_BIT_HPP
 
+#include <vector>
+#include <cmath>
+#include <thread>
+#include <mutex>
+#include <mpi.h>
+#include "../inc/functions.hpp"
+#include "../inc/random.hpp"
+#include "../config.hpp"
 
 class Individual_bit {
 public:

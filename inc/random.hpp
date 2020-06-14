@@ -1,6 +1,10 @@
 #ifndef GENETIC_ALGORITHMS_RANDOM_HPP
 #define GENETIC_ALGORITHMS_RANDOM_HPP
 
+#include <vector>
+#include <cstdlib>
+#include <algorithm>
+#include "../config.hpp"
 
 double random_num(double start, double end);
 

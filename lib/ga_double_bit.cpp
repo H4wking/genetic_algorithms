@@ -1,13 +1,5 @@
 #include <iostream>
-#include <vector>
-#include <cmath>
-#include <thread>
-#include <mutex>
-#include <mpi.h>
-#include "../inc/functions.hpp"
 #include "../inc/ga_double_bit.hpp"
-#include "../inc/random.hpp"
-#include "../config.hpp"
 
 
 /**

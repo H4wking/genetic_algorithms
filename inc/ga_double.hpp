@@ -1,6 +1,13 @@
 #ifndef GENETIC_ALGORITHMS_GA_DOUBLE_HPP
 #define GENETIC_ALGORITHMS_GA_DOUBLE_HPP
 
+#include <vector>
+#include <thread>
+#include <cmath>
+#include "functions.hpp"
+#include "random.hpp"
+#include "../config.hpp"
+
 
 std::vector<double> create_idx_double();
 

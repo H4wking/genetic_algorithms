@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cmath>
-
 #include "../inc/functions.hpp"
 
 //Main function for testing all methods
@@ -53,4 +51,3 @@ double f2d_2(double x) {
 //    0 <= x <= 1.2
     return -(1.4 - 3 * x) * sin(18 * x);
 }
-

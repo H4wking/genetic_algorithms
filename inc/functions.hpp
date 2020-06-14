@@ -1,6 +1,8 @@
 #ifndef GENETIC_ALGORITHMS_FUNCTIONS_HPP
 #define GENETIC_ALGORITHMS_FUNCTIONS_HPP
 
+#include <cmath>
+
 double eggholder_function(double x, double y);
 
 double ackley_function(double x, double y);

@@ -1,6 +1,13 @@
 #ifndef GENETIC_ALGORITHMS_GA_INT_HPP
 #define GENETIC_ALGORITHMS_GA_INT_HPP
 
+#include <vector>
+#include <thread>
+#include <algorithm>
+#include <mpi.h>
+#include "../inc/random.hpp"
+#include "../config.hpp"
+#include "../inc/functions.hpp"
 
 class Individual_int {
 public:

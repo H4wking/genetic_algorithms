@@ -1,9 +1,5 @@
 #include <iostream>
-#include <vector>
-#include <cstdlib>
-#include <algorithm>
 #include "../inc/random.hpp"
-#include "../config.hpp"
 
 
 /**

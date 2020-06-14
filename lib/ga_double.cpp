@@ -1,10 +1,5 @@
 #include <iostream>
-#include <vector>
-#include <thread>
 #include "../inc/ga_double.hpp"
-#include "../inc/functions.hpp"
-#include "../inc/random.hpp"
-#include "../config.hpp"
 
 
 /**

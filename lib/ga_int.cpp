@@ -1,12 +1,5 @@
 #include <iostream>
-#include <vector>
-#include <thread>
-#include <algorithm>
-#include <mpi.h>
 #include "../inc/ga_int.hpp"
-#include "../inc/random.hpp"
-#include "../config.hpp"
-#include "../inc/functions.hpp"
 
 
 /**

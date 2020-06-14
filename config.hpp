@@ -10,6 +10,9 @@
 #define MAX_NUM 512
 #define MIN_NUM -512
 #define MUTATION_CHANCE 0.1
-#define THREADS 3
+#define THREADS 4
+
+#define RUN_MPI false
+#define MPI_FOR_DOUBLE true
 
 #endif //AKS_PROJECT_CONFIG_HPP

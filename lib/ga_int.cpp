@@ -258,7 +258,7 @@ double Individual_int::calculate_func_int() {
         chromosome_int.push_back(MIN_NUM + std::stoi(gene, nullptr, 2) + 1);
     }
 
-    return eggholder_function(chromosome_int[0], chromosome_int[1]);
+    return function_for_testing(chromosome_int[0], chromosome_int[1]);
 }
 
 

@@ -255,5 +255,5 @@ std::vector<double> run_ga_double(int gen_num, int pop_size) {
  * @return result of function
  */
 double Individual_double::calculate_func_double() {
-    return eggholder_function(chromosome[0], chromosome[1]);
+    return function_for_testing(chromosome[0], chromosome[1]);
 }

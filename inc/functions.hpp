@@ -3,6 +3,8 @@
 
 #include <cmath>
 
+double function_for_testing(double x, double y);
+
 double eggholder_function(double x, double y);
 
 double ackley_function(double x, double y);

@@ -1,7 +1,14 @@
 #include <iostream>
 #include "../inc/functions.hpp"
 
-//Main function for testing all methods
+// Main function for testing all methods, can have any formula but is restricted to two variables
+// To change amount of variables change function in calculate_func method (each approach has its own function)
+double function_for_testing(double x, double y) {
+    return -(y + 47) * sin(sqrt(abs(x / 2 + (y + 47))))
+           - x * sin(sqrt(abs(x - (y + 47))));
+}
+
+
 double eggholder_function(double x, double y) {
 //    minimum: f(512,404.2319)=-959.6407
 //    -512 < x,y < 512

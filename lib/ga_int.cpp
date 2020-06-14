@@ -148,9 +148,13 @@ void create_offsprings_thr_int(int n, int pop_size, std::vector<Individual_int> 
         r = random_int(0, pop_size / 2);
         Individual_int parent2 = prev_gen[r];
 
-        Individual_int offspring = parent1.mate2_int(parent2);
-
-        new_gen.push_back(offspring);
+        if (BINARY_MATE == 1) {
+            Individual_int offspring = parent1.mate_int(parent2);
+            new_gen.push_back(offspring);
+        } else {
+            Individual_int offspring = parent1.mate2_int(parent2);
+            new_gen.push_back(offspring);
+        }
     }
 }
 
@@ -275,9 +279,13 @@ std::vector<Individual_int> create_offsprings_mpi_int(int n, std::vector<Individ
         r = random_int(0, POPULATION_SIZE / 2 - 1);
         Individual_int parent2 = prev_gen[r];
 
-        Individual_int offspring = parent1.mate2_int(parent2);
-
-        new_gen.push_back(offspring);
+        if (BINARY_MATE == 1) {
+            Individual_int offspring = parent1.mate_int(parent2);
+            new_gen.push_back(offspring);
+        } else {
+            Individual_int offspring = parent1.mate2_int(parent2);
+            new_gen.push_back(offspring);
+        }
     }
 
     return new_gen;

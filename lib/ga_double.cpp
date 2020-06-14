@@ -156,9 +156,16 @@ void create_offsprings_thr(int n, int pop_size, std::vector<Individual_double> &
         r = random_int(0, pop_size / 2);
         Individual_double parent2 = prev_gen[r];
 
-        Individual_double offspring = parent1.mate2_double(parent2);
-
-        new_gen.push_back(offspring);
+        if (DOUBLE_MATE == 1) {
+            Individual_double offspring = parent1.mate_double(parent2);
+            new_gen.push_back(offspring);
+        } else if (DOUBLE_MATE == 2) {
+            Individual_double offspring = parent1.mate2_double(parent2);
+            new_gen.push_back(offspring);
+        } else {
+            Individual_double offspring = parent1.mate_average(parent2);
+            new_gen.push_back(offspring);
+        }
     }
 }
 

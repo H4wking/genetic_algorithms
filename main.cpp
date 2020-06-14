@@ -1,12 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
-#include <unistd.h>
 #include <ctime>
 #include <cstdlib>
-#include <thread>
-#include <mutex>
-#include <algorithm>
 #include <mpi.h>
 
 #include "inc/time.hpp"

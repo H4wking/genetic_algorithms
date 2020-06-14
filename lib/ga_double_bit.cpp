@@ -144,9 +144,13 @@ void create_offsprings_thr_double_bit(int n, int pop_size, std::vector<Individua
         r = random_int(0, pop_size / 2);
         Individual_bit parent2 = prev_gen[r];
 
-        Individual_bit offspring = parent1.mate_double_bit(parent2);
-
-        new_gen.push_back(offspring);
+        if (BINARY_MATE == 1) {
+            Individual_bit offspring = parent1.mate_double_bit(parent2);
+            new_gen.push_back(offspring);
+        } else {
+            Individual_bit offspring = parent1.mate2_double_bit(parent2);
+            new_gen.push_back(offspring);
+        }
     }
 }
 
@@ -270,9 +274,13 @@ std::vector<Individual_bit> create_offsprings_mpi_double_bit(int n, std::vector<
         r = random_int(0, POPULATION_SIZE / 2 - 1);
         Individual_bit parent2 = prev_gen[r];
 
-        Individual_bit offspring = parent1.mate_double_bit(parent2);
-
-        new_gen.push_back(offspring);
+        if (BINARY_MATE == 1) {
+            Individual_bit offspring = parent1.mate_double_bit(parent2);
+            new_gen.push_back(offspring);
+        } else {
+            Individual_bit offspring = parent1.mate2_double_bit(parent2);
+            new_gen.push_back(offspring);
+        }
     }
 
     return new_gen;

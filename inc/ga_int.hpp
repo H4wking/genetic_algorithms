@@ -25,13 +25,13 @@ void create_offsprings_thr_int(int n, int pop_size, std::vector<Individual_int> 
 
 std::vector<Individual_int> new_gen_int(int pop_size, std::vector<Individual_int> prev) ;
 
-void run_ga_int(int gen_num, int pop_size);
+std::vector<int> run_ga_int(int gen_num, int pop_size);
 
 std::vector<Individual_int> create_offsprings_mpi_int(int n, std::vector<Individual_int> &prev_gen);
 
 std::vector<Individual_int> new_gen_int_mpi(int pop_size, std::vector<Individual_int> prev) ;
 
-void run_ga_int_mpi(int gen_num, int pop_size);
+std::vector<int> run_ga_int_mpi(int gen_num, int pop_size);
 
 void mpi_new_gen_int();
 

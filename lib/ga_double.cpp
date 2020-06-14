@@ -139,11 +139,12 @@ std::vector<Individual_double> create_population_double(int pop_size) {
 /**
  * Function for generating n offsprings from previous generation
  * Function is run in threads
+ * Does not return values, adds them to given vector
  *
  * @param n number of offsprings
  * @param pop_size number of individuals in generation
  * @param prev vector of Individuals from previous generation
- * @return vector of Individuals of new generation
+ * @param vector for new generation
  */
 void create_offsprings_thr(int n, int pop_size, std::vector<Individual_double> &prev_gen, std::vector<Individual_double> &new_gen) {
     for (int i = 0; i < n; i++) {
@@ -164,6 +165,7 @@ void create_offsprings_thr(int n, int pop_size, std::vector<Individual_double> &
  * Create new generation of Individuals
  * Add to new generation 10% of best individuals of previous population
  * and 90% of new individuals created from 50% of best from previous generation
+ * Creates threads that calculate new individuals and joins them afterwards
  *
  * @param pop_size number of individuals in generation
  * @param prev vector of Individuals from previous generation
@@ -214,7 +216,7 @@ std::vector<Individual_double> new_gen_double(int pop_size, std::vector<Individu
  * @param pop_size number of individuals in generation
  * @param gen_num number of generations that will be created
  */
-void run_ga_double(int gen_num, int pop_size) {
+std::vector<double> run_ga_double(int gen_num, int pop_size) {
     int generation = 0;
 
     std::vector<Individual_double> population = create_population_double(pop_size);
@@ -233,6 +235,8 @@ void run_ga_double(int gen_num, int pop_size) {
 
         generation++;
     }
+
+    return population[0].chromosome;
 }
 
 

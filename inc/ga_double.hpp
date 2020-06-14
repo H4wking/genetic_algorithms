@@ -23,7 +23,7 @@ void create_offsprings_thr(int n, int pop_size, std::vector<Individual_double> &
 
 std::vector<Individual_double> new_gen_double(int pop_size, std::vector<Individual_double> prev);
 
-void run_ga_double(int gen_num, int pop_size);
+std::vector<double> run_ga_double(int gen_num, int pop_size);
 
 
 #endif //GENETIC_ALGORITHMS_GA_DOUBLE_HPP

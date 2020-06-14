@@ -25,13 +25,13 @@ void create_offsprings_thr_double_bit(int n, int pop_size, std::vector<Individua
 
 std::vector<Individual_bit> new_gen(int pop_size, std::vector<Individual_bit> prev);
 
-void run_ga_double_bit(int gen_num, int pop_size);
+std::vector<double> run_ga_double_bit(int gen_num, int pop_size);
 
 std::vector<Individual_bit> create_offsprings_mpi_double_bit(int n, std::vector<Individual_bit> &prev_gen);
 
 std::vector<Individual_bit> new_gen_mpi(int pop_size, std::vector<Individual_bit> prev);
 
-void run_ga_double_bit_mpi(int gen_num, int pop_size);
+std::vector<double> run_ga_double_bit_mpi(int gen_num, int pop_size);
 
 void mpi_new_gen_double();
 

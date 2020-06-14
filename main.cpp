@@ -6,19 +6,13 @@
 #include <cstdlib>
 #include <thread>
 #include <mutex>
-#include "inc/time.hpp"
 #include <algorithm>
 #include <mpi.h>
 
-
-
-#include "inc/random.hpp"
-
+#include "inc/time.hpp"
 #include "inc/ga_int.hpp"
 #include "inc/ga_double.hpp"
 #include "inc/ga_double_bit.hpp"
-
-
 #include "config.hpp"
 
 int main(int argc, char *argv[]) {
@@ -28,11 +22,11 @@ int main(int argc, char *argv[]) {
         auto start = get_current_time_fenced();
 
         if (METHOD == 1) {
-            run_ga_double(GENERATIONS, POPULATION_SIZE);
+            std::vector<double> res = run_ga_double(GENERATIONS, POPULATION_SIZE);
         } else if (METHOD == 2) {
-            run_ga_double_bit(GENERATIONS, POPULATION_SIZE);
+            std::vector<double> res = run_ga_double_bit(GENERATIONS, POPULATION_SIZE);
         } else if (METHOD == 3) {
-            run_ga_int(GENERATIONS, POPULATION_SIZE);
+            std::vector<int> res = run_ga_int(GENERATIONS, POPULATION_SIZE);
         } else {
             std::cerr << "No usable method chosen.";
             exit(1);
@@ -42,7 +36,7 @@ int main(int argc, char *argv[]) {
 
         auto total_time = finish - start;
 
-        std::cout << to_us(total_time) / 1000 << std::endl;
+        std::cout << "\nTime in ms: " << to_us(total_time) / 1000 << std::endl;
     } else {
         int rank;
 
@@ -55,16 +49,16 @@ int main(int argc, char *argv[]) {
             auto start = get_current_time_fenced();
 
             if (MPI_FOR_DOUBLE) {
-                run_ga_double_bit_mpi(GENERATIONS, POPULATION_SIZE);
+                std::vector<double> res = run_ga_double_bit_mpi(GENERATIONS, POPULATION_SIZE);
             } else {
-                run_ga_int_mpi(GENERATIONS, POPULATION_SIZE);
+                std::vector<int> res = run_ga_int_mpi(GENERATIONS, POPULATION_SIZE);
             }
 
             auto finish = get_current_time_fenced();
 
             auto total_time = finish - start;
 
-            std::cout << to_us(total_time) / 1000 << std::endl;
+            std::cout << "\nTime in ms: " << to_us(total_time) / 1000 << std::endl;
         } else {
             if (MPI_FOR_DOUBLE) {
                 mpi_new_gen_double();

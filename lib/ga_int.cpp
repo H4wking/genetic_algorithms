@@ -139,11 +139,12 @@ std::vector<Individual_int> create_population_int(int pop_size) {
 /**
  * Function for generating n offsprings from previous generation
  * Function is run in threads
+ * Does not return values, adds them to given vector
  *
  * @param n number of offsprings
  * @param pop_size number of individuals in generation
  * @param prev vector of Individuals from previous generation
- * @return vector of Individuals of new generation
+ * @param vector for new generation
  */
 void create_offsprings_thr_int(int n, int pop_size, std::vector<Individual_int> &prev_gen,
                                std::vector<Individual_int> &new_gen) {
@@ -165,6 +166,7 @@ void create_offsprings_thr_int(int n, int pop_size, std::vector<Individual_int> 
  * Create new generation of Individuals
  * Add to new generation 10% of best individuals of previous population
  * and 90% of new individuals created from 50% of best from previous generation
+ * Creates threads that calculate new individuals and joins them afterwards
  *
  * @param pop_size number of individuals in generation
  * @param prev vector of Individuals from previous generation
@@ -215,28 +217,36 @@ std::vector<Individual_int> new_gen_int(int pop_size, std::vector<Individual_int
  *
  * @param pop_size number of individuals in generation
  * @param gen_num number of generations that will be created
+ * @return vector of found minimum values
  */
-void run_ga_int(int gen_num, int pop_size) {
+std::vector<int> run_ga_int(int gen_num, int pop_size) {
     int generation = 0;
 
     std::vector<Individual_int> population = create_population_int(pop_size);
 
+    std::vector<int> res;
 
     while (generation <= gen_num) {
         population = new_gen_int(pop_size, population);
 
+        for (auto var : population[0].chromosome) {
+            res.push_back(MIN_NUM + std::stoi(var, nullptr, 2) + 1);
+        }
+
         std::cout << "Generation: " << generation << "\t";
         std::cout << "Minimum: ";
-        for (auto var : population[0].chromosome) {
-            std::cout << MIN_NUM + std::stoi(var, nullptr, 2) + 1 << "; ";
+        for (auto var : res) {
+            std::cout << var << "; ";
         }
         std::cout << "\t";
         std::cout << "Function result: " << population[0].func_res << std::endl;
 
         generation++;
+
+        res.clear();
     }
 
-
+    return res;
 }
 
 
@@ -254,6 +264,14 @@ double Individual_int::calculate_func_int() {
     return eggholder_function(chromosome_int[0], chromosome_int[1]);
 }
 
+
+/**
+ * Function for generating n offsprings from previous generation
+ * Function is run in different processes using MPI
+ *
+ * @param n number of offsprings
+ * @param prev vector of Individuals from previous generation
+ */
 std::vector<Individual_int> create_offsprings_mpi_int(int n, std::vector<Individual_int> &prev_gen) {
     std::vector<Individual_int> new_gen;
 
@@ -273,6 +291,17 @@ std::vector<Individual_int> create_offsprings_mpi_int(int n, std::vector<Individ
 }
 
 
+/**
+ * Create new generation of Individuals
+ * Add to new generation 10% of best individuals of previous population
+ * and 90% of new individuals created from 50% of best from previous generation
+ * Sends 50% of previous generation to other processes, which calculate and send back results
+ * using mpi_new_gen_int() function
+ *
+ * @param pop_size number of individuals in generation
+ * @param prev vector of Individuals from previous generation
+ * @return vector of Individuals of new generation
+ */
 std::vector<Individual_int> new_gen_int_mpi(int pop_size, std::vector<Individual_int> prev) {
     sort(prev.begin(), prev.end());
 
@@ -342,29 +371,51 @@ std::vector<Individual_int> new_gen_int_mpi(int pop_size, std::vector<Individual
 }
 
 
-void run_ga_int_mpi(int gen_num, int pop_size) {
+/**
+ * Main function that runs genetic algorithm in next order:
+ * - first create initial population of Individuals
+ * - then create new generation of Individuals in loop given amount of times
+ * Creates new generation using MPI
+ *
+ * @param pop_size number of individuals in generation
+ * @param gen_num number of generations that will be created
+ * @return vector of found minimum values
+ */
+std::vector<int> run_ga_int_mpi(int gen_num, int pop_size) {
     int generation = 0;
 
     std::vector<Individual_int> population = create_population_int(pop_size);
 
+    std::vector<int> res;
 
     while (generation <= gen_num) {
         population = new_gen_int_mpi(pop_size, population);
 
+        for (auto var : population[0].chromosome) {
+            res.push_back(MIN_NUM + std::stoi(var, nullptr, 2) + 1);
+        }
+
         std::cout << "Generation: " << generation << "\t";
         std::cout << "Minimum: ";
-        for (auto var : population[0].chromosome) {
-            std::cout << MIN_NUM + std::stoi(var, nullptr, 2) + 1 << "; ";
+        for (auto var : res) {
+            std::cout << var << "; ";
         }
         std::cout << "\t";
         std::cout << "Function result: " << population[0].func_res << std::endl;
 
         generation++;
+
+        res.clear();
     }
 
-
+    return res;
 }
 
+
+/**
+ * Function for secondary processes to receive previous generation,
+ * calculate new individuals and send them back
+ */
 void mpi_new_gen_int() {
     std::string str;
     int inds;

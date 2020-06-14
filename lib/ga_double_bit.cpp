@@ -136,11 +136,12 @@ std::vector<Individual_bit> create_population_double_bit(int pop_size) {
 /**
  * Function for generating n offsprings from previous generation
  * Function is run in threads
+ * Does not return values, adds them to given vector
  *
  * @param n number of offsprings
  * @param pop_size number of individuals in generation
  * @param prev vector of Individuals from previous generation
- * @return vector of Individuals of new generation
+ * @param vector for new generation
  */
 void create_offsprings_thr_double_bit(int n, int pop_size, std::vector<Individual_bit> &prev_gen,
                                       std::vector<Individual_bit> &new_gen) {
@@ -162,6 +163,7 @@ void create_offsprings_thr_double_bit(int n, int pop_size, std::vector<Individua
  * Create new generation of Individuals
  * Add to new generation 10% of best individuals of previous population
  * and 90% of new individuals created from 50% of best from previous generation
+ * Creates threads that calculate new individuals and joins them afterwards
  *
  * @param pop_size number of individuals in generation
  * @param prev vector of Individuals from previous generation
@@ -210,26 +212,36 @@ std::vector<Individual_bit> new_gen(int pop_size, std::vector<Individual_bit> pr
  *
  * @param pop_size number of individuals in generation
  * @param gen_num number of generations that will be created
+ * @return vector of found minimum values
  */
-void run_ga_double_bit(int gen_num, int pop_size) {
+std::vector<double> run_ga_double_bit(int gen_num, int pop_size) {
     int generation = 0;
 
     std::vector<Individual_bit> population = create_population_double_bit(pop_size);
 
+    std::vector<double> res;
+
     while (generation <= gen_num) {
         population = new_gen(pop_size, population);
 
+        for (auto var : population[0].chromosome) {
+            res.push_back(MIN_NUM + std::stoi(var, nullptr, 2) * ((MAX_NUM - MIN_NUM) / (pow(2, DOUBLE_BITS) - 1)));
+        }
 
         std::cout << "Generation: " << generation << "\t";
         std::cout << "Minimum: ";
-        for (auto var : population[0].chromosome) {
-            std::cout << MIN_NUM + std::stoi(var, nullptr, 2) * ((MAX_NUM - MIN_NUM) / (pow(2, DOUBLE_BITS) - 1)) << "; ";
+        for (auto var : res) {
+            std::cout << var << "; ";
         }
         std::cout << "\t";
         std::cout << "Function result: " << population[0].func_res << std::endl;
 
         generation++;
+
+        res.clear();
     }
+
+    return res;
 }
 
 
@@ -248,6 +260,14 @@ double Individual_bit::calculate_func_double_bit() {
     return eggholder_function(chromosome_double[0], chromosome_double[1]);
 }
 
+
+/**
+ * Function for generating n offsprings from previous generation
+ * Function is run in different processes using MPI
+ *
+ * @param n number of offsprings
+ * @param prev vector of Individuals from previous generation
+ */
 std::vector<Individual_bit> create_offsprings_mpi_double_bit(int n, std::vector<Individual_bit> &prev_gen) {
     std::vector<Individual_bit> new_gen;
 
@@ -266,6 +286,18 @@ std::vector<Individual_bit> create_offsprings_mpi_double_bit(int n, std::vector<
     return new_gen;
 }
 
+
+/**
+ * Create new generation of Individuals
+ * Add to new generation 10% of best individuals of previous population
+ * and 90% of new individuals created from 50% of best from previous generation
+ * Sends 50% of previous generation to other processes, which calculate and send back results
+ * using mpi_new_gen_double() function
+ *
+ * @param pop_size number of individuals in generation
+ * @param prev vector of Individuals from previous generation
+ * @return vector of Individuals of new generation
+ */
 std::vector<Individual_bit> new_gen_mpi(int pop_size, std::vector<Individual_bit> prev) {
     sort(prev.begin(), prev.end());
 
@@ -334,26 +366,52 @@ std::vector<Individual_bit> new_gen_mpi(int pop_size, std::vector<Individual_bit
     return new_generation;
 }
 
-void run_ga_double_bit_mpi(int gen_num, int pop_size) {
+
+/**
+ * Main function that runs genetic algorithm in next order:
+ * - first create initial population of Individuals
+ * - then create new generation of Individuals in loop given amount of times
+ * Creates new generation using MPI
+ *
+ * @param pop_size number of individuals in generation
+ * @param gen_num number of generations that will be created
+ * @return vector of found minimum values
+ */
+std::vector<double> run_ga_double_bit_mpi(int gen_num, int pop_size) {
     int generation = 0;
 
     std::vector<Individual_bit> population = create_population_double_bit(pop_size);
 
+    std::vector<double> res;
+
     while (generation <= gen_num) {
         population = new_gen_mpi(pop_size, population);
 
+        for (auto var : population[0].chromosome) {
+            res.push_back(MIN_NUM + std::stoi(var, nullptr, 2) * ((MAX_NUM - MIN_NUM) / (pow(2, DOUBLE_BITS) - 1)));
+        }
+
         std::cout << "Generation: " << generation << "\t";
         std::cout << "Minimum: ";
-        for (auto var : population[0].chromosome) {
-            std::cout << MIN_NUM + std::stoi(var, nullptr, 2) * ((MAX_NUM - MIN_NUM) / (pow(2, DOUBLE_BITS) - 1)) << "; ";
+        for (auto var : res) {
+            std::cout << var << "; ";
         }
         std::cout << "\t";
         std::cout << "Function result: " << population[0].func_res << std::endl;
 
         generation++;
+
+        res.clear();
     }
+
+    return res;
 }
 
+
+/**
+ * Function for secondary processes to receive previous generation,
+ * calculate new individuals and send them back
+ */
 void mpi_new_gen_double() {
     std::string str;
     int inds;

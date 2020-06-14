@@ -16,7 +16,9 @@ Individual_double::Individual_double(std::vector<double> chromosome) {
 
 
 /**
- * Create new individual by taking gene from both parents with equal chances and apply mutation
+ * Create new Individual as a result of mating of two Individuals.
+ * Select random split point and create new individual by taking parts before and after split point from different parents.
+ * Then apply mutation.
  *
  * @param par2 individual for mating
  * @return new Individual_double
@@ -54,7 +56,12 @@ Individual_double Individual_double::mate_double(Individual_double par2) {
 }
 
 
-
+/**
+ * Create new individual by taking gene from both parents with equal chances and apply mutation
+ *
+ * @param par2 individual for mating
+ * @return new Individual_double
+ */
 Individual_double Individual_double::mate2_double(Individual_double par2) {
     std::vector<double> child_chromosome;
 
@@ -79,7 +86,7 @@ Individual_double Individual_double::mate2_double(Individual_double par2) {
 
 
 /**
- * Create new individual by taking gene as average from both parents genes with and apply mutation
+ * Create new individual by taking gene as average from both parents genes and apply mutation
  *
  * @param par2 individual for mating
  * @return new Individual_double

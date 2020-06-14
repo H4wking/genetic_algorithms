@@ -18,7 +18,7 @@ Individual_int::Individual_int(std::vector<std::string> chromosome) {
 /**
  * Create new Individual as a result of mating of two Individuals.
  * Select random split point and create new individual by taking parts before and after split point from different parents.
- * Them apply mutation.
+ * Then apply mutation.
  *
  * @param par2 individual for mating
  * @return new individual

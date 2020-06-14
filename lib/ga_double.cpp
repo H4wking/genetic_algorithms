@@ -1,14 +1,8 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
-#include <unistd.h>
-#include <ctime>
-#include <cstdlib>
 #include <thread>
-#include <mutex>
 #include "../inc/ga_double.hpp"
 #include "../inc/functions.hpp"
-
 #include "../inc/random.hpp"
 #include "../config.hpp"
 

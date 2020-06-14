@@ -5,9 +5,7 @@
 #include <mutex>
 #include <mpi.h>
 #include "../inc/functions.hpp"
-
 #include "../inc/ga_double_bit.hpp"
-
 #include "../inc/random.hpp"
 #include "../config.hpp"
 
@@ -22,7 +20,6 @@
 Individual_bit::Individual_bit(std::vector<std::string> chromosome) {
     this->chromosome = chromosome;
     func_res = calculate_func_double_bit();
-
 }
 
 
@@ -66,7 +63,6 @@ Individual_bit Individual_bit::mate_double_bit(Individual_bit par2) {
         child_chromosome.push_back(gene_bin.to_string());
     }
 
-
     return Individual_bit(child_chromosome);
 }
 
@@ -105,7 +101,6 @@ Individual_bit Individual_bit::mate2_double_bit(Individual_bit par2) {
 
         child_chromosome.push_back(gene_bin.to_string());
     }
-
     return Individual_bit(child_chromosome);
 }
 

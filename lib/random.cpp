@@ -24,7 +24,7 @@ double random_num(double start, double end) {
  *
  * @param start minimum number
  * @param end maximum number
- * @return random number
+ * @return random int
  */
 int random_int(int start, int end) {
     int r = rand() % (end - start + 1);
@@ -45,7 +45,6 @@ std::string random_bin_int() {
             bin[i] = '1';
         }
     }
-
     return bin;
 }
 

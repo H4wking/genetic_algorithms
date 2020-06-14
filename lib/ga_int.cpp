@@ -1,11 +1,8 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
-#include <cstdlib>
 #include <thread>
 #include <algorithm>
 #include <mpi.h>
-#include "../inc/time.hpp"
 #include "../inc/ga_int.hpp"
 #include "../inc/random.hpp"
 #include "../config.hpp"

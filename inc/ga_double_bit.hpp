@@ -1,6 +1,7 @@
 #ifndef GENETIC_ALGORITHMS_GA_DOUBLE_BIT_HPP
 #define GENETIC_ALGORITHMS_GA_DOUBLE_BIT_HPP
 
+
 class Individual_bit {
 public:
     std::vector<std::string> chromosome;

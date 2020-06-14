@@ -1,6 +1,7 @@
 #ifndef GENETIC_ALGORITHMS_RANDOM_HPP
 #define GENETIC_ALGORITHMS_RANDOM_HPP
 
+
 double random_num(double start, double end);
 
 int random_int(int start, int end);

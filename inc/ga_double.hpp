@@ -26,5 +26,4 @@ std::vector<Individual_double> new_gen_double(int pop_size, std::vector<Individu
 void run_ga_double(int gen_num, int pop_size);
 
 
-
 #endif //GENETIC_ALGORITHMS_GA_DOUBLE_HPP

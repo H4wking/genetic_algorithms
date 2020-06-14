@@ -49,7 +49,7 @@ All parameters for our library are set in `config.hpp` file:
 
 
 ## Description of functions using double bit method as example
-Class `Individual_bit_` representing individual which has two variables: chromosome - vector of strings containing binary numbers representing function variables, func_res - result of calculated function with variables from chromosome.
+Class `Individual_bit` representing individual which has two variables: chromosome - vector of strings containing binary numbers representing function variables, func_res - result of calculated function with variables from chromosome.
 
 __Methods:__
 * `mate_double_bit`: takes one Individual for mating as parameter and returns new Individual.

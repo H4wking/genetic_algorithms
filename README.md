@@ -1,4 +1,4 @@
-# Genetic algorithms
+# Parallel Library of Genetic Algorithms
 ## Project for Architecture of Computer Systems
 __Task:__ create parallel library of genetic algorithms for function optimization  
 

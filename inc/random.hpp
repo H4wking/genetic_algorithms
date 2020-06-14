@@ -1,7 +1,5 @@
-#ifndef AKS_PROJECT_RANDOM_HPP
-#define AKS_PROJECT_RANDOM_HPP
-
-
+#ifndef GENETIC_ALGORITHMS_RANDOM_HPP
+#define GENETIC_ALGORITHMS_RANDOM_HPP
 
 double random_num(double start, double end);
 
@@ -18,4 +16,4 @@ std::vector<std::string> create_double_ind();
 double mutated_gene();
 
 
-#endif //AKS_PROJECT_RANDOM_HPP
+#endif //GENETIC_ALGORITHMS_RANDOM_HPP

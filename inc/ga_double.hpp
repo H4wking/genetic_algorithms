@@ -1,5 +1,5 @@
-#ifndef AKS_PROJECT_GA_DOUBLE_HPP
-#define AKS_PROJECT_GA_DOUBLE_HPP
+#ifndef GENETIC_ALGORITHMS_GA_DOUBLE_HPP
+#define GENETIC_ALGORITHMS_GA_DOUBLE_HPP
 
 
 std::vector<double> create_idx_double();
@@ -27,4 +27,4 @@ void run_ga_double(int gen_num, int pop_size);
 
 
 
-#endif //AKS_PROJECT_GA_DOUBLE_HPP
+#endif //GENETIC_ALGORITHMS_GA_DOUBLE_HPP

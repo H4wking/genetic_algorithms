@@ -1,5 +1,5 @@
-#ifndef AKS_PROJECT_GA_INT_HPP
-#define AKS_PROJECT_GA_INT_HPP
+#ifndef GENETIC_ALGORITHMS_GA_INT_HPP
+#define GENETIC_ALGORITHMS_GA_INT_HPP
 
 
 class Individual_int {
@@ -36,4 +36,4 @@ void run_ga_int_mpi(int gen_num, int pop_size);
 void mpi_new_gen_int();
 
 
-#endif //AKS_PROJECT_GA_INT_HPP
+#endif //GENETIC_ALGORITHMS_GA_INT_HPP

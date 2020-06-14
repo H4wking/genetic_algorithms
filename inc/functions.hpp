@@ -1,5 +1,5 @@
-#ifndef AKS_PROJECT_FUNCTIONS_HPP
-#define AKS_PROJECT_FUNCTIONS_HPP
+#ifndef GENETIC_ALGORITHMS_FUNCTIONS_HPP
+#define GENETIC_ALGORITHMS_FUNCTIONS_HPP
 
 double eggholder_function(double x, double y);
 

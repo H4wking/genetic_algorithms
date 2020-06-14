@@ -12,12 +12,28 @@
 #include "../config.hpp"
 
 
+/**
+ * Create an Individual with parameters chromosome and func_res
+ * chromosome is represented as a vector of strings
+ * Number of elements in vector depends on a number of dimension of functions that will be calculated
+ * func_res - result of function calculated at given points - chromosome of Individual
+ *
+ */
 Individual_bit::Individual_bit(std::vector<std::string> chromosome) {
     this->chromosome = chromosome;
     func_res = calculate_func_double_bit();
 
 }
 
+
+/**
+ * Create new Individual as a result of mating of two Individuals.
+ * Select random split point and create new individual by taking parts before and after split point from different parents.
+ * Them apply mutation.
+ *
+ * @param par2 individual for mating
+ * @return new individual
+ */
 Individual_bit Individual_bit::mate_double_bit(Individual_bit par2) {
     std::vector<std::string> child_chromosome;
 
@@ -55,6 +71,12 @@ Individual_bit Individual_bit::mate_double_bit(Individual_bit par2) {
 }
 
 
+/**
+ * Create new individual by taking bits from both parents with equal chances and apply mutation
+ *
+ * @param par2 individual for mating
+ * @return new individual
+ */
 Individual_bit Individual_bit::mate2_double_bit(Individual_bit par2) {
     std::vector<std::string> child_chromosome;
 
@@ -87,10 +109,23 @@ Individual_bit Individual_bit::mate2_double_bit(Individual_bit par2) {
     return Individual_bit(child_chromosome);
 }
 
+
+/**
+ * Compare two Individuals by result of function.
+ *
+ * @relatesalso Individual_bit
+ */
 bool operator<(const Individual_bit &ind1, const Individual_bit &ind2) {
     return ind1.func_res < ind2.func_res;
 }
 
+
+/**
+ * Create initial population represented by a vector of Individuals
+ *
+ * @param pop_size number of individuals in initial generation
+ * @return vector of Individuals
+ */
 std::vector<Individual_bit> create_population_double_bit(int pop_size) {
     std::vector<Individual_bit> population;
 
@@ -102,6 +137,16 @@ std::vector<Individual_bit> create_population_double_bit(int pop_size) {
     return population;
 }
 
+
+/**
+ * Function for generating n offsprings from previous generation
+ * Function is run in threads
+ *
+ * @param n number of offsprings
+ * @param pop_size number of individuals in generation
+ * @param prev vector of Individuals from previous generation
+ * @return vector of Individuals of new generation
+ */
 void create_offsprings_thr_double_bit(int n, int pop_size, std::vector<Individual_bit> &prev_gen,
                                       std::vector<Individual_bit> &new_gen) {
     for (int i = 0; i < n; i++) {
@@ -117,6 +162,16 @@ void create_offsprings_thr_double_bit(int n, int pop_size, std::vector<Individua
     }
 }
 
+
+/**
+ * Create new generation of Individuals
+ * Add to new generation 10% of best individuals of previous population
+ * and 90% of new individuals created from 50% of best from previous generation
+ *
+ * @param pop_size number of individuals in generation
+ * @param prev vector of Individuals from previous generation
+ * @return vector of Individuals of new generation
+ */
 std::vector<Individual_bit> new_gen(int pop_size, std::vector<Individual_bit> prev) {
     sort(prev.begin(), prev.end());
 
@@ -151,6 +206,16 @@ std::vector<Individual_bit> new_gen(int pop_size, std::vector<Individual_bit> pr
     return new_generation;
 }
 
+
+/**
+ * Main function that runs genetic algorithm in next order:
+ * - first create initial population of Individuals
+ * - then create new generation of Individuals in loop given amount of times
+ *
+ *
+ * @param pop_size number of individuals in generation
+ * @param gen_num number of generations that will be created
+ */
 void run_ga_double_bit(int gen_num, int pop_size) {
     int generation = 0;
 
@@ -172,6 +237,12 @@ void run_ga_double_bit(int gen_num, int pop_size) {
     }
 }
 
+
+/**
+ * Calculate function for points that are represented as chromosome of Individual
+ *
+ * @return result of function
+ */
 double Individual_bit::calculate_func_double_bit() {
     std::vector<double> chromosome_double;
     for (auto gene : chromosome) {

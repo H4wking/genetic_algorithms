@@ -1,5 +1,5 @@
-#ifndef AKS_PROJECT_GA_DOUBLE_BIT_HPP
-#define AKS_PROJECT_GA_DOUBLE_BIT_HPP
+#ifndef GENETIC_ALGORITHMS_GA_DOUBLE_BIT_HPP
+#define GENETIC_ALGORITHMS_GA_DOUBLE_BIT_HPP
 
 class Individual_bit {
 public:
@@ -34,4 +34,4 @@ void run_ga_double_bit_mpi(int gen_num, int pop_size);
 
 void mpi_new_gen_double();
 
-#endif //AKS_PROJECT_GA_DOUBLE_BIT_HPP
+#endif //GENETIC_ALGORITHMS_GA_DOUBLE_BIT_HPP

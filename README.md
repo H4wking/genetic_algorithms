@@ -49,7 +49,7 @@ All parameters for our library are set in `config.hpp` file:
 * `MPI_FOR_DOUBLE` - boolean to choose double bit or integer methods
 
 
-Function for optimization is given in `function.cpp` file. There are few examples of functions provided and `function_for_testing` is used in all methods. You can use any formula you need.
+Function for optimization is given in `function.cpp` file. There are few examples of functions provided and `function_for_optimization` is used in all methods. You can use any formula you need.
 
 
 ## Description of functions using double bit method as example

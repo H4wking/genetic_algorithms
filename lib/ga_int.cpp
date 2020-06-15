@@ -253,12 +253,12 @@ std::vector<int> run_ga_int(int gen_num, int pop_size) {
  * @return result of function
  */
 double Individual_int::calculate_func_int() {
-    std::vector<int> chromosome_int;
+    std::vector<double> chromosome_int;
     for (auto gene : chromosome) {
         chromosome_int.push_back(MIN_NUM + std::stoi(gene, nullptr, 2) + 1);
     }
 
-    return function_for_testing(chromosome_int[0], chromosome_int[1]);
+    return function_for_optimization(chromosome_int);
 }
 
 

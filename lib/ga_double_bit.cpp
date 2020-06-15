@@ -253,7 +253,7 @@ double Individual_bit::calculate_func_double_bit() {
         chromosome_double.push_back(gene_double);
     }
 
-    return function_for_testing(chromosome_double[0], chromosome_double[1]);
+    return function_for_optimization(chromosome_double);
 }
 
 

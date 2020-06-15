@@ -2,21 +2,23 @@
 #define GENETIC_ALGORITHMS_FUNCTIONS_HPP
 
 #include <cmath>
+#include <vector>
 
-double function_for_testing(double x, double y);
+double function_for_optimization(std::vector<double> variables);
 
-double eggholder_function(double x, double y);
+double eggholder_function(std::vector<double> variables);
 
-double ackley_function(double x, double y);
+double ackley_function(std::vector<double> variables);
 
-double booth_function(double x, double y);
+double booth_function(std::vector<double> variables);
 
-double matyas_function(double x, double y);
+double matyas_function(std::vector<double> variables);
 
-double rosenbrock_function (double x, double y);
+double rosenbrock_function (std::vector<double> variables);
 
-double f2d_1(double x);
+double f2d_1(std::vector<double> variables);
 
-double f2d_2(double x);
+double f2d_2(std::vector<double> variables);
+
 
 #endif
